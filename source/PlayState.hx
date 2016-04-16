@@ -9,11 +9,13 @@ import flixel.math.FlxMath;
 
 class PlayState extends FlxState
 {
+	public var newsFeed:NewsFeed;
 	override public function create():Void
 	{
 		super.create();
 		add(new FlxSprite(0,0,"assets/images/set.png"));
-		new NewsFeed(250,20);
+		newsFeed = new NewsFeed(250,20);
+		newsFeed.changeText("hello my name is ali .. and welcome to my new game");
 
 	}
 
