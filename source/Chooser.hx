@@ -6,6 +6,7 @@ using flixel.util.FlxSpriteUtil;
 
 class Chooser extends FlxSprite{
 	private var choices:Array<FlxText>;
+	private var reactions:Array<String>;
 	private var currentChoice:Int = 0;
 	public function new(x:Int, y:Int) {
 		super(x,y);
@@ -16,6 +17,7 @@ class Chooser extends FlxSprite{
 		drawRoundRect(0, 0, this.width, this.height, 5, 5, 0xBB0000FF);
 
 		choices = new Array<FlxText>();
+		reactions = new Array<String>();
 		for (i in 0 ... 3) {
 			var choice = new FlxText(x,y+this.height*(i/3),this.width,"choice1");
 			choice.setFormat(null,16,0x00000000);
@@ -33,7 +35,10 @@ class Chooser extends FlxSprite{
 	{
 		flxText.text = flxText.text.substring(3);
 		flxText.color = 0xFF000000;
-
+	}
+	public function currentReaction():String
+	{
+		return reactions[currentChoice];
 	}
 	override public function update(elapsed:Float):Void
 	{
@@ -51,11 +56,14 @@ class Chooser extends FlxSprite{
 		}
 		super.update(elapsed);	
 	}
-	public function updateChoices(s0:String,s1:String,s2:String)
+	public function updateChoices(s0:Dynamic,s1:Dynamic,s2:Dynamic)
 	{
-		choices[0].text = s0;
-		choices[1].text = s1;
-		choices[2].text = s2;
+		choices[0].text = s0.text;
+		choices[1].text = s1.text;
+		choices[2].text = s2.text;
+		reactions[0] = s0.reaction;
+		reactions[1] = s1.reaction;
+		reactions[2] = s2.reaction;
 
 		select(choices[currentChoice]);
 	}

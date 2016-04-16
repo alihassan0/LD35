@@ -8,6 +8,7 @@ import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
+import flixel.math.FlxRandom;
 
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.math.FlxPoint;
@@ -39,7 +40,7 @@ class PlayState extends FlxState
 		add(bg);
 
 		//struggle bar
-		statusBar = new FlxBar(70,10,FlxBarFillDirection.LEFT_TO_RIGHT,500,20,this,"popularity",0.0,100.0);
+		statusBar = new FlxBar(70,10,FlxBarFillDirection.LEFT_TO_RIGHT,500,20,this,"popularity",0.0,1000.0);
 		add(statusBar);
 
 
@@ -78,13 +79,18 @@ class PlayState extends FlxState
 	}
 	public function post():Void
 	{
-		var data = Data.level1();
-		newsFeed.changeText(data[0]);
-		chooser.updateChoices(data[1],data[2],data[3]);
+		var data = Data.level1().choices;
+		newsFeed.changeText(data[0].text);
+		data = data.splice(1,data.length);
+		var shuffledIndices = new FlxRandom().shuffleArray([0,1,2],6);
+
+		chooser.updateChoices(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]);
 
 	}
 	override public function update(elapsed:Float):Void
 	{
+		if(FlxG.keys.justPressed.ENTER)
+			trace(chooser.currentReaction());
 		super.update(elapsed);
 		
 		popularity -= .01;
