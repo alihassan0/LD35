@@ -62,7 +62,7 @@ class PlayState extends FlxState
 		scrollingText.setPosition(200,-25);//manually
 		FlxG.watch.addMouse();
 		
-		add(new Chooser(0,180));
+		new Chooser(0,180);
 	}
 
 	override public function update(elapsed:Float):Void
