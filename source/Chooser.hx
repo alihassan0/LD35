@@ -50,7 +50,12 @@ class Chooser extends FlxSprite{
 			currentChoice = (currentChoice+1)%choices.length;
 			select(choices[currentChoice]);
 		}
-		super.update(elapsed);
-		
+		super.update(elapsed);	
+	}
+	public function updateChoices(s0:String,s1:String,s2:String)
+	{
+		choices[0].text = s0;
+		choices[1].text = s1;
+		choices[2].text = s2;
 	}
 }

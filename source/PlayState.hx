@@ -22,6 +22,7 @@ class PlayState extends FlxState
 	public var statusBar:FlxBar;
 	public var tv:TV;
 	public var recorder:Recorder;
+	public var chooser:Chooser;
 
 	public var popularity:Float = 100;
 
@@ -62,9 +63,17 @@ class PlayState extends FlxState
 		scrollingText.setPosition(200,-25);//manually
 		FlxG.watch.addMouse();
 		
-		new Chooser(0,180);
-	}
+		chooser = new Chooser(0,180);
 
+		post();
+	}
+	public function post():Void
+	{
+		var data = Data.level1();
+		newsFeed.changeText(data[0]);
+		chooser.updateChoices(data[1],data[2],data[3]);
+
+	}
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
