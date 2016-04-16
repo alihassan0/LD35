@@ -18,11 +18,6 @@ class NewsFeed extends FlxSprite{
 		newsTextField = new FlxText(x,y+20,this.width,"news",8);
 		FlxG.state.add(newsTextField);
 		
-		FlxG.state.add(new FlxSprite(x,y).makeGraphic(Math.floor(this.width),20,0xFFFF0000));
-		brakingNewsTextField = new FlxText(x,y,this.width,"Breking News",8);
-		brakingNewsTextField.setFormat(null,10,0xFFFFFFFF);
-		FlxG.state.add(brakingNewsTextField);
-		
 		textTimer = new FlxTimer();
 	}
 	public function changeText(newText:String)
