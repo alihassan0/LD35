@@ -47,12 +47,14 @@ class Chooser extends FlxSprite{
 			unselect(choices[currentChoice]);
 			currentChoice = (choices.length+currentChoice-1)%choices.length;
 			select(choices[currentChoice]);
+			Sound.play("select");
 		}
 		if(FlxG.keys.anyJustPressed(["S","DOWN"]))
 		{
 			unselect(choices[currentChoice]);
 			currentChoice = (currentChoice+1)%choices.length;
 			select(choices[currentChoice]);
+			Sound.play("select");
 		}
 		super.update(elapsed);	
 	}

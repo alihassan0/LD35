@@ -35,7 +35,9 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		super.create();
+
 		random = new FlxRandom();
+		Sound.init();
 
 		//Background
 		var bg:FlxSprite = new FlxSprite(0,0,"assets/images/set.png");
@@ -91,25 +93,25 @@ class PlayState extends FlxState
 		var data = Data.events[event].choices;
 
 		newsFeed.changeText(data[0].text);
-		//data = data.splice(1,data.length);
-		var shuffledIndices = random.shuffleArray([0,1,2],6);
-		trace(data);
-		chooser.updateChoices(data[shuffledIndices[0]+1],data[shuffledIndices[1]+1],data[shuffledIndices[2]+1]);
+		var shuffledIndices = random.shuffleArray([1,2,3],6);
+		chooser.updateChoices(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]);
 
 	}
-	public function react(reaction:String):Void
+	public function react(amount:Int):Void
 	{
-		var amount = Std.parseInt(reaction);
 		popularity += amount*10;
+
 	}
 	override public function update(elapsed:Float):Void
 	{
 		if(FlxG.keys.justPressed.ENTER)
 		{
-			react(chooser.currentReaction());
+			var amount:Int = Std.parseInt(chooser.currentReaction());
+			react(amount);
 			var randomEvent = random.int(0,2,[currentEvent]);
-			trace("new event : " + randomEvent);
 			post(randomEvent);
+			FlxG.camera.shake(.01,Math.abs(amount)/20);
+			Sound.play("cheer");
 		}
 		super.update(elapsed);
 		
