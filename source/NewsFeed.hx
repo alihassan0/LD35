@@ -8,6 +8,7 @@ class NewsFeed extends FlxSprite{
 	private var desiredText:String;
 	private var textTimer:FlxTimer;	
 	private var timerSpeed:Float = .1;
+	
 	public function new(x:Int, y:Int) {
 		super(x,y);
 		makeGraphic(70,120,0xFF0000FF);
