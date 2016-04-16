@@ -2,12 +2,15 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.text.FlxText;
 
+import flixel.addons.text.FlxTypeText;
+
 using flixel.util.FlxSpriteUtil;
 
 class Chooser extends FlxSprite{
-	private var choices:Array<FlxText>;
+	private var choices:Array<FlxTypeText>;
 	private var reactions:Array<String>;
 	private var currentChoice:Int = 0;
+	public var canSelect:Bool = false;
 	public function new(x:Int, y:Int) {
 		super(x,y);
 		
@@ -16,25 +19,33 @@ class Chooser extends FlxSprite{
 		makeGraphic(FlxG.width, 180, 0x00000000, true);
 		drawRoundRect(0, 0, this.width, this.height, 5, 5, 0xBB0000FF);
 
-		choices = new Array<FlxText>();
+		choices = new Array<FlxTypeText>();
 		reactions = new Array<String>();
 		for (i in 0 ... 3) {
-			var choice = new FlxText(x,y+this.height*(i/3),this.width,"choice1");
+			var choice = new FlxTypeText(x,y+this.height*(i/3),Math.floor(this.width),"choice1");
 			choice.setFormat(null,16,0x00000000);
+			choice.delay = 0.1;
+			choice.eraseDelay = 0.2;
+			choice.setTypingVariation(0.75, true);
+			choice.skipKeys = ["SPACE"];
 			FlxG.state.add(choice);
 			choices.push(choice);
 		}
 
 	}
-	private function select(flxText:FlxText):Void
+	private function select(flxText:FlxTypeText):Void
 	{
-		flxText.text = " > "+flxText.text;
 		flxText.color = 0xFFFFFFFF;
 	}
-	private function unselect(flxText:FlxText):Void
+	private function unselect(flxText:FlxTypeText):Void
 	{
-		flxText.text = flxText.text.substring(3);
 		flxText.color = 0xFF000000;
+	}
+	public function resetAllText():Void
+	{
+		choices[0].resetText("");
+		choices[1].resetText("");
+		choices[2].resetText("");
 	}
 	public function currentReaction():String
 	{
@@ -42,14 +53,14 @@ class Chooser extends FlxSprite{
 	}
 	override public function update(elapsed:Float):Void
 	{
-		if(FlxG.keys.anyJustPressed(["W","UP"]))
+		if(FlxG.keys.anyJustPressed(["W","UP"])&& canSelect)
 		{
 			unselect(choices[currentChoice]);
 			currentChoice = (choices.length+currentChoice-1)%choices.length;
 			select(choices[currentChoice]);
 			Sound.play("select");
 		}
-		if(FlxG.keys.anyJustPressed(["S","DOWN"]))
+		if(FlxG.keys.anyJustPressed(["S","DOWN"])&& canSelect)
 		{
 			unselect(choices[currentChoice]);
 			currentChoice = (currentChoice+1)%choices.length;
@@ -58,15 +69,26 @@ class Chooser extends FlxSprite{
 		}
 		super.update(elapsed);	
 	}
+	public function updateChoice(i:Int)
+	{
+		if(i ==  choices.length)
+		{
+			canSelect = true;
+			select(choices[currentChoice]);
+			return;
+		}
+		choices[i].start(0.02, true, false, null,updateChoice.bind(i+1));
+	}
 	public function updateChoices(s0:Dynamic,s1:Dynamic,s2:Dynamic)
 	{
-		choices[0].text = s0.text;
-		choices[1].text = s1.text;
-		choices[2].text = s2.text;
+
+		choices[0].resetText(s0.text);
+		choices[1].resetText(s1.text);
+		choices[2].resetText(s2.text);
 		reactions[0] = s0.reaction;
 		reactions[1] = s1.reaction;
 		reactions[2] = s2.reaction;
-
-		select(choices[currentChoice]);
+		updateChoice(0);
+		
 	}
 }

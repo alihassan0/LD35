@@ -9,11 +9,10 @@ import flixel.text.FlxBitmapText;
 import flixel.addons.plugin.FlxScrollingText;
 import flash.geom.Rectangle;
 
+import flixel.addons.text.FlxTypeText;
+
 class NewsFeed extends FlxSprite{
-	private var newsTextField:FlxText;
-	private var desiredText:String;
-	private var textTimer:FlxTimer;	
-	private var timerSpeed:Float = .1;
+	public var newsTextField:FlxTypeText;
 	
 	public var scrollingText:FlxSprite;
 
@@ -23,12 +22,18 @@ class NewsFeed extends FlxSprite{
 		makeGraphic(140,240,0xCC0000FF);
 		FlxG.state.add(this);
 
-		newsTextField = new FlxText(x,y+40,this.width,"news",12);
+		newsTextField = new FlxTypeText(x,y+40,Math.floor(this.width),"news",12);
+		newsTextField.delay = 0.1;
+		newsTextField.eraseDelay = 0.2;
+		newsTextField.setTypingVariation(0.75, true);
+		newsTextField.skipKeys = ["SPACE"];
 		FlxG.state.add(newsTextField);
+		/*newsTextField.sounds = [ FlxG.sound.load(FlxAssets.getSound("assets/type01")),
+		                     FlxG.sound.load(FlxAssets.getSound("assets/type02")) ];*/
+		
 		
 		FlxG.state.add(new FlxSprite(x,y).makeGraphic(Math.floor(this.width),40,0xFFFF0000));
 		
-		textTimer = new FlxTimer();
 		addBreakingNews();
 	}
 	public function addBreakingNews()
@@ -53,16 +58,6 @@ class NewsFeed extends FlxSprite{
 	}
 	public function changeText(newText:String)
 	{
-		desiredText = newText;
-		newsTextField.text = "";
-		textTimer.start(timerSpeed,updateText,1);
-	}
-	private function updateText(t:FlxTimer)
-	{
-		if(newsTextField.text.length < desiredText.length)
-		{
-			newsTextField.text = desiredText.substring(0,newsTextField.text.length+1);
-			textTimer.start(timerSpeed,updateText,1);
-		}
+		
 	}
 }

@@ -67,12 +67,19 @@ class PlayState extends FlxState
 	public function post(event:Int):Void
 	{
 		currentEvent = event;
-
+		chooser.canSelect = false;
 		var data = Data.events[event].choices;
-
-		newsFeed.changeText(data[0].text);
 		var shuffledIndices = random.shuffleArray([1,2,3],6);
-		chooser.updateChoices(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]);
+
+		//reset choices
+		chooser.resetAllText();
+		//hacky way of doing it
+		newsFeed.newsTextField.resetText(data[0].text);
+		newsFeed.newsTextField.start(0.02, true, false, null,
+		chooser.updateChoices.bind(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]));
+
+
+		//chooser.updateChoices(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]);
 
 	}
 	public function react(amount:Int):Void
