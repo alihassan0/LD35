@@ -7,6 +7,8 @@ class TV extends FlxSprite{
 		loadGraphic("assets/images/tv.png",true,65,50);
 		animation.add("noSignal",[0,1,2],30,true);
 		animation.play("noSignal");
+		scale.set(1.5,1.5);
+		updateHitbox();
 
 	}
 }

@@ -22,7 +22,7 @@ class Chooser extends FlxSprite{
 		choices = new Array<FlxTypeText>();
 		reactions = new Array<String>();
 		for (i in 0 ... 3) {
-			var choice = new FlxTypeText(x+40,y+this.height*(i/3),Math.floor(this.width)-80,"choice1");
+			var choice = new FlxTypeText(x+40,y+5+this.height*(i/3),Math.floor(this.width)-80,"choice1");
 			choice.setFormat(null,16,0x00000000);
 			choice.delay = 0.1;
 			choice.eraseDelay = 0.2;
