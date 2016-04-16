@@ -12,6 +12,8 @@ class PlayState extends FlxState
 {
 	public var newsFeed:NewsFeed;
 	public var statusBar:FlxBar;
+	public var tv:TV;
+
 
 	override public function create():Void
 	{
@@ -23,6 +25,9 @@ class PlayState extends FlxState
 
 		statusBar = new FlxBar(10,10,FlxBarFillDirection.LEFT_TO_RIGHT,300,20);
 		add(statusBar);
+
+		tv = new TV(30,50);
+		add(tv);
 	}
 
 	override public function update(elapsed:Float):Void
