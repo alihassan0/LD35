@@ -68,6 +68,7 @@ class PlayState extends FlxState
 	{
 		currentEvent = event;
 		chooser.canSelect = false;
+		trace(event,Data.events[event]);
 		var data = Data.events[event].choices;
 		var shuffledIndices = random.shuffleArray([1,2,3],6);
 
@@ -93,7 +94,7 @@ class PlayState extends FlxState
 		{
 			var amount:Int = Std.parseInt(chooser.currentReaction());
 			react(amount);
-			var randomEvent = random.int(0,2,[currentEvent]);
+			var randomEvent = random.int(0,Data.events.length-1,[currentEvent]);
 			post(randomEvent);
 			FlxG.camera.shake(.01,Math.abs(amount)/20);
 			Sound.play("cheer");

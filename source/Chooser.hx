@@ -15,17 +15,18 @@ class Chooser extends FlxSprite{
 		super(x,y);
 		
 		FlxG.state.add(this);
-
-		makeGraphic(FlxG.width, 180, 0x00000000, true);
-		drawRoundRect(0, 0, this.width, this.height, 5, 5, 0xBB0000FF);
+		var lineStyle = { color: 0xFF000000, thickness: 3.0 };
+		makeGraphic(FlxG.width, 160, 0x00000000, true);
+		drawRoundRect(20, 0, this.width -40, this.height, 15, 15, 0xEE222222,lineStyle);
 
 		choices = new Array<FlxTypeText>();
 		reactions = new Array<String>();
 		for (i in 0 ... 3) {
-			var choice = new FlxTypeText(x,y+this.height*(i/3),Math.floor(this.width),"choice1");
+			var choice = new FlxTypeText(x+40,y+this.height*(i/3),Math.floor(this.width)-80,"choice1");
 			choice.setFormat(null,16,0x00000000);
 			choice.delay = 0.1;
 			choice.eraseDelay = 0.2;
+			choice.prefix = "- ";
 			choice.setTypingVariation(0.75, true);
 			choice.skipKeys = ["SPACE"];
 			FlxG.state.add(choice);
@@ -77,7 +78,7 @@ class Chooser extends FlxSprite{
 			select(choices[currentChoice]);
 			return;
 		}
-		choices[i].start(0.02, true, false, null,updateChoice.bind(i+1));
+		choices[i].start(0.04, true, false, null,updateChoice.bind(i+1));
 	}
 	public function updateChoices(s0:Dynamic,s1:Dynamic,s2:Dynamic)
 	{
