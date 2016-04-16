@@ -42,13 +42,13 @@ class Chooser extends FlxSprite{
 	}
 	override public function update(elapsed:Float):Void
 	{
-		if(FlxG.keys.justPressed.W)
+		if(FlxG.keys.anyJustPressed(["W","UP"]))
 		{
 			unselect(choices[currentChoice]);
 			currentChoice = (choices.length+currentChoice-1)%choices.length;
 			select(choices[currentChoice]);
 		}
-		if(FlxG.keys.justPressed.S)
+		if(FlxG.keys.anyJustPressed(["S","DOWN"]))
 		{
 			unselect(choices[currentChoice]);
 			currentChoice = (currentChoice+1)%choices.length;

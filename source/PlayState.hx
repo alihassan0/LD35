@@ -25,20 +25,27 @@ class PlayState extends FlxState
 	public var recorder:Recorder;
 	public var chooser:Chooser;
 
-	public var popularity:Float = 100;
+	public var popularity:Float = 1000;
 
 	public var scrollingText:FlxSprite;
 
+	public var currentEvent:Int=0;
 
+	private var random:FlxRandom;
 	override public function create():Void
 	{
 		super.create();
+		random = new FlxRandom();
+
 		//Background
 		var bg:FlxSprite = new FlxSprite(0,0,"assets/images/set.png");
 		bg.scale.set(2,2);
 		bg.updateHitbox();
 		add(bg);
 
+		var frame = new FlxSprite(80,70,"assets/images/frame.png");
+		frame.scale.set(.8,.8);
+		add(frame);
 		//struggle bar
 		statusBar = new FlxBar(70,10,FlxBarFillDirection.LEFT_TO_RIGHT,500,20,this,"popularity",0.0,1000.0);
 		add(statusBar);
@@ -47,7 +54,7 @@ class PlayState extends FlxState
 		newsFeed = new NewsFeed(500,40);
 		newsFeed.changeText("hello my name is ali .. and welcome to my new game");
 
-		tv = new TV(30,50);
+		tv = new TV(90,160);
 		add(tv);
 
 		add(new Recorder(256,190));
@@ -75,22 +82,35 @@ class PlayState extends FlxState
 
 		chooser = new Chooser(0,300);
 
-		post();
+		post(0);
 	}
-	public function post():Void
+	public function post(event:Int):Void
 	{
-		var data = Data.level1().choices;
+		currentEvent = event;
+
+		var data = Data.events[event].choices;
+
 		newsFeed.changeText(data[0].text);
-		data = data.splice(1,data.length);
-		var shuffledIndices = new FlxRandom().shuffleArray([0,1,2],6);
+		//data = data.splice(1,data.length);
+		var shuffledIndices = random.shuffleArray([0,1,2],6);
+		trace(data);
+		chooser.updateChoices(data[shuffledIndices[0]+1],data[shuffledIndices[1]+1],data[shuffledIndices[2]+1]);
 
-		chooser.updateChoices(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]);
-
+	}
+	public function react(reaction:String):Void
+	{
+		var amount = Std.parseInt(reaction);
+		popularity += amount*10;
 	}
 	override public function update(elapsed:Float):Void
 	{
 		if(FlxG.keys.justPressed.ENTER)
-			trace(chooser.currentReaction());
+		{
+			react(chooser.currentReaction());
+			var randomEvent = random.int(0,2,[currentEvent]);
+			trace("new event : " + randomEvent);
+			post(randomEvent);
+		}
 		super.update(elapsed);
 		
 		popularity -= .01;
