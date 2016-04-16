@@ -75,7 +75,7 @@ class PlayState extends FlxState
 		chooser = new Chooser(0,300);
 
 		post(0);
-		//add(new FloatingText(200,200,"+5",0xFF00FF00));
+		
 	}
 	public function post(event:Int):Void
 	{
@@ -116,12 +116,12 @@ class PlayState extends FlxState
 			if(amount>0)
 			{
 				Sound.play("cheer");
-				trace("cheer");
+				add(new FloatingText(chooser.x,chooser.y,chooser.currentReaction(),0xFF00FF00));
 			}	
 			else
 			{
 				Sound.play("anger");
-				trace("anger");
+				add(new FloatingText(chooser.x,chooser.y,chooser.currentReaction(),0xFFFF0000));
 			}
 		}
 		super.update(elapsed);

@@ -5,15 +5,16 @@ import flixel.text.FlxText;
 class FloatingText extends FlxSprite
 {
 	var textField:FlxText;
-	public function new(x:Int, y:Int,text:String,color:Int) 
+	public function new(x:Float, y:Float,text:String,color:Int) 
 	{
 		super(x,y);
 		makeGraphic(1,1,0x00000000);
-		textField = new FlxText(x,y,100,text);
-		textField.setFormat(null,16,color,"center",FlxTextBorderStyle.SHADOW,0xFFFFFFFF);
+		textField = new FlxText(x,y,300,text);
+		textField.setFormat(null,32,color,"center",FlxTextBorderStyle.SHADOW,0xFFFFFFFF);
 		FlxG.state.add(textField);
-		acceleration.y = 200;
-		velocity.y = -100;
+		acceleration.y = 1000+Math.random()*300;
+		velocity.y = -400-Math.random()*200;
+		velocity.x = -100+Math.random()*200;
 	}
 	override public function update(elapsed:Float)
 	{
