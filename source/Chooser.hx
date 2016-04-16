@@ -12,17 +12,16 @@ class Chooser extends FlxSprite{
 		
 		FlxG.state.add(this);
 
-		makeGraphic(FlxG.width, 60, 0x00000000, true);
+		makeGraphic(FlxG.width, 180, 0x00000000, true);
 		drawRoundRect(0, 0, this.width, this.height, 5, 5, 0xBB0000FF);
 
 		choices = new Array<FlxText>();
 		for (i in 0 ... 3) {
 			var choice = new FlxText(x,y+this.height*(i/3),this.width,"choice1");
-			choice.setFormat(null,8,0x00000000);
+			choice.setFormat(null,16,0x00000000);
 			FlxG.state.add(choice);
 			choices.push(choice);
 		}
-		select(choices[currentChoice]);
 
 	}
 	private function select(flxText:FlxText):Void
@@ -57,5 +56,7 @@ class Chooser extends FlxSprite{
 		choices[0].text = s0;
 		choices[1].text = s1;
 		choices[2].text = s2;
+
+		select(choices[currentChoice]);
 	}
 }

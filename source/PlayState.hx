@@ -32,18 +32,24 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		super.create();
-		add(new FlxSprite(0,0,"assets/images/set.png"));
-		
-		statusBar = new FlxBar(10,10,FlxBarFillDirection.LEFT_TO_RIGHT,300,20,this,"popularity",0.0,100.0);
+		//Background
+		var bg:FlxSprite = new FlxSprite(0,0,"assets/images/set.png");
+		bg.scale.set(2,2);
+		bg.updateHitbox();
+		add(bg);
+
+		//struggle bar
+		statusBar = new FlxBar(70,10,FlxBarFillDirection.LEFT_TO_RIGHT,500,20,this,"popularity",0.0,100.0);
 		add(statusBar);
 
-		newsFeed = new NewsFeed(250,20);
+
+		newsFeed = new NewsFeed(500,40);
 		newsFeed.changeText("hello my name is ali .. and welcome to my new game");
 
 		tv = new TV(30,50);
 		add(tv);
 
-		add(new Recorder(128,95));
+		add(new Recorder(256,190));
 		
 		var letters:String = " !\"#$%&'()*+,-./" + "0123456789:;<=>?" + "@ABCDEFGHIJKLMNO" + "PQRSTUVWXYZ[]^_" + "abcdefghijklmno" + "pqrstuvwxyz{|}~\\";
 		var fontXNA:FlxBitmapFont = FlxBitmapFont.fromXNA("assets/fonts/fontData10pt.png", letters);
@@ -52,18 +58,21 @@ class PlayState extends FlxState
 		tf3.y = 0;
 		tf3.textColor = 0xFFFFFFFF;
 		tf3.useTextColor = true;
+		tf3.alignment = FlxTextAlign.LEFT;
+		tf3.lineSpacing = 5;
 		tf3.text = "Breaking news....";
 		tf3.autoUpperCase = true;
 		add(tf3);
 		
 		FlxG.plugins.add(new FlxScrollingText());
 		scrollingText = FlxScrollingText.add(tf3,new Rectangle(0,0,200,200),1,0," Breaking news ***");
-		scrollingText.scale.set(.5,.5);
+		scrollingText.color = 0xFF000000;
+		scrollingText.setPosition(505,45);//manually
 		add(scrollingText);
-		scrollingText.setPosition(200,-25);//manually
-		FlxG.watch.addMouse();
 		
-		chooser = new Chooser(0,180);
+		FlxG.watch.addMouse();
+
+		chooser = new Chooser(0,300);
 
 		post();
 	}

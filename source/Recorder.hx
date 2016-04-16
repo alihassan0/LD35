@@ -7,6 +7,8 @@ class Recorder extends FlxSprite{
 		loadGraphic("assets/images/recorder.png",true,45,120);
 		animation.add("recorder",[0,1,2],5,true);
 		animation.play("recorder");
+		scale.set(2,2);
+		updateHitbox();
 
 	}
 }

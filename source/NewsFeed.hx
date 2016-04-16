@@ -12,13 +12,13 @@ class NewsFeed extends FlxSprite{
 
 	public function new(x:Int, y:Int) {
 		super(x,y);
-		makeGraphic(70,120,0xFF0000FF);
+		makeGraphic(140,240,0xCC0000FF);
 		FlxG.state.add(this);
 
-		newsTextField = new FlxText(x,y+20,this.width,"news",4);
+		newsTextField = new FlxText(x,y+40,this.width,"news",12);
 		FlxG.state.add(newsTextField);
 		
-		FlxG.state.add(new FlxSprite(x,y).makeGraphic(Math.floor(this.width),20,0xFFFF0000));
+		FlxG.state.add(new FlxSprite(x,y).makeGraphic(Math.floor(this.width),40,0xFFFF0000));
 		
 		textTimer = new FlxTimer();
 	}
