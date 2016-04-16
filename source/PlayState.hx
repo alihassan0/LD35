@@ -111,7 +111,18 @@ class PlayState extends FlxState
 			var randomEvent = random.int(0,Data.events.length-1,[currentEvent]);
 			post(randomEvent);
 			FlxG.camera.shake(.01,Math.abs(amount)/20);
-			Sound.play("cheer");
+			
+
+			if(amount>0)
+			{
+				Sound.play("cheer");
+				trace("cheer");
+			}	
+			else
+			{
+				Sound.play("anger");
+				trace("anger");
+			}
 		}
 		super.update(elapsed);
 		

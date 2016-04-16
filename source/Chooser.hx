@@ -3,6 +3,7 @@ import flixel.FlxG;
 import flixel.text.FlxText;
 
 import flixel.addons.text.FlxTypeText;
+import flixel.system.FlxAssets;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -11,6 +12,7 @@ class Chooser extends FlxSprite{
 	private var reactions:Array<String>;
 	private var currentChoice:Int = 0;
 	public var canSelect:Bool = false;
+
 	public function new(x:Int, y:Int) {
 		super(x,y);
 		
@@ -27,9 +29,11 @@ class Chooser extends FlxSprite{
 			choice.delay = 0.1;
 			choice.eraseDelay = 0.2;
 			choice.prefix = "- ";
-			choice.setTypingVariation(0.75, true);
 			choice.skipKeys = ["SPACE"];
 			FlxG.state.add(choice);
+			choice.setTypingVariation(10, true);
+			choice.sounds = [ FlxG.sound.load("assets/sounds/type01.ogg",.4),
+		                     FlxG.sound.load("assets/sounds/type02.ogg",.4)];
 			choices.push(choice);
 		}
 
@@ -78,7 +82,7 @@ class Chooser extends FlxSprite{
 			select(choices[currentChoice]);
 			return;
 		}
-		choices[i].start(0.04, true, false, null,updateChoice.bind(i+1));
+		choices[i].start(0.125, true, false, null,updateChoice.bind(i+1));
 	}
 	public function updateChoices(s0:Dynamic,s1:Dynamic,s2:Dynamic)
 	{

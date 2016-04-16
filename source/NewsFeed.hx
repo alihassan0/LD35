@@ -8,6 +8,8 @@ import flixel.math.FlxPoint;
 import flixel.text.FlxBitmapText;
 import flixel.addons.plugin.FlxScrollingText;
 import flash.geom.Rectangle;
+import flixel.system.FlxAssets;
+
 
 import flixel.addons.text.FlxTypeText;
 
@@ -28,11 +30,11 @@ class NewsFeed extends FlxSprite{
 		newsTextField = new FlxTypeText(x+10,y+30,Math.floor(this.width),"news",12);
 		newsTextField.delay = 0.1;
 		newsTextField.eraseDelay = 0.2;
-		newsTextField.setTypingVariation(0.75, true);
+		newsTextField.setTypingVariation(0.5, true);
 		newsTextField.skipKeys = ["SPACE"];
 		FlxG.state.add(newsTextField);
-		/*newsTextField.sounds = [ FlxG.sound.load(FlxAssets.getSound("assets/type01")),
-		                     FlxG.sound.load(FlxAssets.getSound("assets/type02")) ];*/
+		newsTextField.sounds = [ FlxG.sound.load("assets/sounds/type01.ogg",.2),
+		                     FlxG.sound.load("assets/sounds/type02.ogg",.2)];
 		
 		
 		FlxG.state.add(new FlxSprite(x,y).makeGraphic(Math.floor(this.width),20,0xFFFF0000));
