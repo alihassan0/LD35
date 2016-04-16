@@ -10,11 +10,7 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.math.FlxRandom;
 
-import flixel.graphics.frames.FlxBitmapFont;
-import flixel.math.FlxPoint;
-import flixel.text.FlxBitmapText;
-import flixel.addons.plugin.FlxScrollingText;
-import flash.geom.Rectangle;
+
 
 
 class PlayState extends FlxState
@@ -26,8 +22,6 @@ class PlayState extends FlxState
 	public var chooser:Chooser;
 
 	public var popularity:Float = 1000;
-
-	public var scrollingText:FlxSprite;
 
 	public var currentEvent:Int=0;
 
@@ -61,30 +55,14 @@ class PlayState extends FlxState
 
 		add(new Recorder(256,190));
 		
-		var letters:String = " !\"#$%&'()*+,-./" + "0123456789:;<=>?" + "@ABCDEFGHIJKLMNO" + "PQRSTUVWXYZ[]^_" + "abcdefghijklmno" + "pqrstuvwxyz{|}~\\";
-		var fontXNA:FlxBitmapFont = FlxBitmapFont.fromXNA("assets/fonts/fontData10pt.png", letters);
 		
-		var tf3:FlxBitmapText = new FlxBitmapText(fontXNA);
-		tf3.y = 0;
-		tf3.textColor = 0xFFFFFFFF;
-		tf3.useTextColor = true;
-		tf3.alignment = FlxTextAlign.LEFT;
-		tf3.lineSpacing = 5;
-		tf3.text = "Breaking news....";
-		tf3.autoUpperCase = true;
-		add(tf3);
-		
-		FlxG.plugins.add(new FlxScrollingText());
-		scrollingText = FlxScrollingText.add(tf3,new Rectangle(0,0,200,200),1,0," Breaking news ***");
-		scrollingText.color = 0xFF000000;
-		scrollingText.setPosition(505,45);//manually
-		add(scrollingText);
 		
 		FlxG.watch.addMouse();
 
 		chooser = new Chooser(0,300);
 
 		post(0);
+		add(new FloatingText(200,200,"+5",0xFF00FF00));
 	}
 	public function post(event:Int):Void
 	{
