@@ -10,8 +10,9 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.math.FlxRandom;
 
-
-
+import flixel.addons.effects.chainable.FlxEffectSprite;
+import flixel.addons.effects.chainable.FlxGlitchEffect;
+import flixel.addons.effects.chainable.FlxShakeEffect;
 
 class PlayState extends FlxState
 {
@@ -20,6 +21,11 @@ class PlayState extends FlxState
 	public var statusBar:FlxBar;
 	public var prezAngryBar:FlxBar;
 	public var rebelAngryBar:FlxBar;
+	
+	public var prezImage:FlxSprite;
+	public var rebelImage:FlxSprite;
+	public var prezEffectImage:FlxEffectSprite;
+	public var rebelEffectImage:FlxEffectSprite;
 
 	public var prezAngerLvl:Float = 50;
 	public var rebelAngerLvl:Float = 50;
@@ -53,7 +59,7 @@ class PlayState extends FlxState
 		add(frame);
 
 		newsFeed = new NewsFeed(480,40);
-		newsFeed.changeText("hello my name is ali .. and welcome to my new game");
+		newsFeed.changeText("");
 
 		tv = new TV(90,160);
 		//add(tv);
@@ -63,12 +69,21 @@ class PlayState extends FlxState
 		//add top panel
 		add(new FlxSprite(0,0).makeGraphic(FlxG.width,70,0xFFCCCCCC));
 		
-		var rebel:FlxSprite = new FlxSprite(20,10,"assets/images/rebel.png");
-		rebel.scale.set(.8,.8);
-		add(rebel);
+		rebelImage = new FlxSprite(20,10,"assets/images/rebel.png");
+		rebelEffectImage = new FlxEffectSprite(rebelImage);
 
-		var prez:FlxSprite = new FlxSprite(580	,10,"assets/images/mobarak.png");
-		add(prez);
+		rebelEffectImage.effects = [new FlxShakeEffect(3, 2, function(){cast(prezEffectImage.effects[1],FlxGlitchEffect).active = false;}), new FlxGlitchEffect(2, 2, 0.1)];
+		cast(rebelEffectImage.effects[1],FlxGlitchEffect).active = false;
+		rebelImage.scale.set(.8,.8);
+		rebelEffectImage.setPosition(20,10);
+		add(rebelEffectImage);
+
+		prezImage = new FlxSprite(580,10,"assets/images/mobarak.png");
+		prezEffectImage = new FlxEffectSprite(prezImage);
+		prezEffectImage.effects = [new FlxShakeEffect(3, 2, function(){cast(rebelEffectImage.effects[1],FlxGlitchEffect).active = false;}), new FlxGlitchEffect(2, 2, 0.1)];
+		cast(prezEffectImage.effects[1],FlxGlitchEffect).active = false;
+		prezEffectImage.setPosition(580,10);
+		add(prezEffectImage);
 
 		//struggle and engry bars
 		statusBar = new FlxBar(70,30,FlxBarFillDirection.RIGHT_TO_LEFT,500,20,this,"popularity",0,1000);
@@ -107,7 +122,6 @@ class PlayState extends FlxState
 		newsFeed.newsTextField.start(0.02, true, false, null,
 		chooser.updateChoices.bind(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]));
 
-
 		//chooser.updateChoices(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]);
 
 	}
@@ -117,8 +131,18 @@ class PlayState extends FlxState
 		popularity = Math.min(1000,popularity);
 		tide += amount/5; 
 		tide = Math.max(.1,tide);
-		prezAngerLvl -= amount;
-		rebelAngerLvl += amount;
+		prezAngerLvl -= amount*2;
+		if(amount > 0)
+		{
+			cast(rebelEffectImage.effects[0],FlxShakeEffect).start();
+			cast(prezEffectImage.effects[1],FlxGlitchEffect).active = true;
+		}
+		else
+		{
+			cast(prezEffectImage.effects[0],FlxShakeEffect).start();
+			cast(rebelEffectImage.effects[1],FlxGlitchEffect).active = true;
+		}
+		rebelAngerLvl += amount*2;
 	}
 	override public function update(elapsed:Float):Void
 	{
@@ -128,7 +152,7 @@ class PlayState extends FlxState
 			react(amount);
 			var randomEvent = random.int(0,Data.events.length-1,[currentEvent]);
 			post(randomEvent);
-			FlxG.camera.shake(.01,Math.abs(amount)/20);
+			FlxG.camera.shake(.01,Math.abs(amount)/40);
 			
 
 			if(amount>0)
