@@ -41,7 +41,9 @@ class PlayState extends FlxState
 
 	public var noise:FlxSprite;
 
-	private var tide:Float = 3;
+
+	private var tide:Float = 1;
+	private var tideTxt:FlxText;
 	override public function create():Void
 	{
 		super.create();
@@ -106,8 +108,8 @@ class PlayState extends FlxState
 		prezAngryBar.createFilledBar(0xff005100, 0xff00F400, true, 0xFF000000);
 		add(prezAngryBar);
 
-		add(new FlxText(0,0,FlxG.width,"Revelution Bar").setFormat(null,16,0xFFFF0000,"center"));
-
+		add(new FlxText(0,0,FlxG.width,"Revolution Bar").setFormat(null,16,0xFFFF0000,"center"));
+		add(tideTxt = new FlxText(rebelImage.x+40,rebelImage.y,100,"X"+tide).setFormat(null,8,0xFFFF0000));
 
 		FlxG.watch.addMouse();
 		FlxG.watch.add(this,"popularity");
@@ -142,7 +144,7 @@ class PlayState extends FlxState
 		var amount:Int = Std.parseInt(sAmount)*10 -7 + Math.floor(Math.random()*14);
 		popularity += amount*3;
 		popularity = Math.min(1000,popularity);
-		tide += amount/100; 
+		tide += amount/50; 
 		tide = Math.max(.1,tide);
 		if(prezAngerLvl < 100)
 			prezAngerLvl -= amount*.4;
@@ -193,7 +195,8 @@ class PlayState extends FlxState
 			prezAngerLvl--;		
 		if(chooser.canSelect)
 		{
-			popularity -= (tide/25);
+			popularity -= (tide/20);
+			tideTxt.text = "X "+tide;
 			statusBar.alpha = 1;
 		}
 		else
