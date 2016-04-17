@@ -91,17 +91,20 @@ class PlayState extends FlxState
 		add(statusBar);
 
 		rebelAngryBar = new FlxBar(10,60,FlxBarFillDirection.LEFT_TO_RIGHT,50,8,this,"prezAngerLvl",0,100);
-		rebelAngryBar.createFilledBar(0xFFFF0000,0xFF00FF00,true,0xFF000000);
+		rebelAngryBar.createFilledBar(0x88FF0000,0xFFFF0000,true,0xFF000000);
 		add(rebelAngryBar);
 
 		prezAngryBar = new FlxBar(570,60,FlxBarFillDirection.LEFT_TO_RIGHT,50,8,this,"rebelAngerLvl",0,100);
-		prezAngryBar.createFilledBar(0xFFFF0000,0xFF00FF00,true,0xFF000000);
 		add(prezAngryBar);
 
 		add(new FlxText(0,0,FlxG.width,"Revelution Bar").setFormat(null,16,0xFFFF0000,"center"));
 
 
 		FlxG.watch.addMouse();
+		FlxG.watch.add(this,"popularity");
+		FlxG.watch.add(this,"tide");
+		FlxG.watch.add(this,"prezAngerLvl");
+		FlxG.watch.add(this,"rebelAngerLvl");
 
 		chooser = new Chooser(0,300);
 
@@ -125,48 +128,61 @@ class PlayState extends FlxState
 		//chooser.updateChoices(data[shuffledIndices[0]],data[shuffledIndices[1]],data[shuffledIndices[2]]);
 
 	}
-	public function react(amount:Int):Void
+	public function react(sAmount:String):Void
 	{
-		popularity += amount*10;
+		var amount:Int = Std.parseInt(sAmount)*10 -7 + Math.floor(Math.random()*14);
+		popularity += amount*3;
 		popularity = Math.min(1000,popularity);
-		tide += amount/5; 
+		tide += amount/100; 
 		tide = Math.max(.1,tide);
-		prezAngerLvl -= amount*2;
+		if(prezAngerLvl < 100)
+			prezAngerLvl -= amount*.2;
+		if(rebelAngerLvl < 100)
+			rebelAngerLvl += amount*.2;
+		var redComponent = Math.max(0,prezAngerLvl-50)/50;
+		var greenComponent = Math.max(0,50-prezAngerLvl)/50;
+
+		prezImage.color = 0xFFFFFFFF - Math.floor(redComponent*0x0000FFFF + greenComponent*0x00FF00FF);
+		trace(prezAngerLvl,redComponent,greenComponent);
 		if(amount > 0)
 		{
 			cast(rebelEffectImage.effects[0],FlxShakeEffect).start();
 			cast(prezEffectImage.effects[1],FlxGlitchEffect).active = true;
+			
+			Sound.play("cheer");
+			
+			if(rebelAngerLvl > 90)
+			{
+				cast(rebelEffectImage.effects[0],FlxShakeEffect).reset(3,0);
+
+			}
+
 		}
 		else
 		{
+			Sound.play("anger");
+
 			cast(prezEffectImage.effects[0],FlxShakeEffect).start();
 			cast(rebelEffectImage.effects[1],FlxGlitchEffect).active = true;
+
 		}
-		rebelAngerLvl += amount*2;
+
+		FlxG.camera.shake(.01,Math.abs(amount)/400);
+		add(new FloatingText(chooser.x,chooser.y,sAmount.charAt(0)+Math.abs(amount),0xFFFF0000));
 	}
 	override public function update(elapsed:Float):Void
 	{
 		if(FlxG.keys.justPressed.ENTER && chooser.canSelect)
 		{
-			var amount:Int = Std.parseInt(chooser.currentReaction());
-			react(amount);
+			react(chooser.currentReaction());
 			var randomEvent = random.int(0,Data.events.length-1,[currentEvent]);
 			post(randomEvent);
-			FlxG.camera.shake(.01,Math.abs(amount)/40);
-			
-
-			if(amount>0)
-			{
-				Sound.play("cheer");
-				add(new FloatingText(chooser.x,chooser.y,chooser.currentReaction(),0xFF00FF00));
-			}	
-			else
-			{
-				Sound.play("anger");
-				add(new FloatingText(chooser.x,chooser.y,chooser.currentReaction(),0xFFFF0000));
-			}
 		}
 		super.update(elapsed);
+		if(FlxG.keys.pressed.G)
+			prezAngerLvl++;		
+		if(FlxG.keys.pressed.H)
+			prezAngerLvl--;		
 		
 		popularity -= (tide/25);
 		if(popularity<0)
