@@ -170,7 +170,10 @@ class PlayState extends FlxState
 		
 		popularity -= (tide/25);
 		if(popularity<0)
-			FlxG.switchState(new MenuState());
+		{
+			Reg.reason = "revolution";
+			FlxG.switchState(new GameOverState());
+		}
 		//trace(popularity,tide);
 	}
 }
