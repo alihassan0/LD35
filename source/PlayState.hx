@@ -33,7 +33,7 @@ class PlayState extends FlxState
 
 	public var recorder:Recorder;
 	public var chooser:Chooser;
-
+	public var support:Support;
 
 	public var currentEvent:Int=0;
 
@@ -57,47 +57,53 @@ class PlayState extends FlxState
 		var bg:FlxSprite = new FlxSprite(0,0,"assets/images/set.png");
 		bg.scale.set(2,2);
 		bg.updateHitbox();
+		bg.replaceColor(0xFFac5100,0xFF46c92c);
 		add(bg);
 
 		var frame = new FlxSprite(450,65,"assets/images/frame.png");
 		frame.scale.set(.8,.8);
 		add(frame);
 
+		support = new Support(100,80);
+
+
 		newsFeed = new NewsFeed(178,70);
 		newsFeed.changeText("");
 
 		//add(new Recorder(256,190));
 
+		var yOffset:Int = 8;
+
 		//add top panel
-		//add(new FlxSprite(0,0).makeGraphic(FlxG.width,70,0xFFCCCCCC));
-		
-		rebelImage = new FlxSprite(20,10,"assets/images/rebel.png");
+		add(new FlxSprite(0,0-yOffset).makeGraphic(FlxG.width,70,0xFF888888));
+		rebelImage = new FlxSprite(20,10-yOffset,"assets/images/rebel.png");
 		rebelEffectImage = new FlxEffectSprite(rebelImage);
 
 		rebelEffectImage.effects = [new FlxShakeEffect(3, 2, function(){cast(prezEffectImage.effects[1],FlxGlitchEffect).active = false;}), new FlxGlitchEffect(2, 2, 0.1)];
 		cast(rebelEffectImage.effects[1],FlxGlitchEffect).active = false;
 		rebelImage.scale.set(.8,.8);
-		rebelEffectImage.setPosition(20,10);
+		rebelEffectImage.setPosition(20,10-yOffset);
 		add(rebelEffectImage);
 
-		prezImage = new FlxSprite(580,10,"assets/images/mobarak.png");
+		prezImage = new FlxSprite(580,10-yOffset,"assets/images/mobarak.png");
 		prezEffectImage = new FlxEffectSprite(prezImage);
 		prezEffectImage.effects = [new FlxShakeEffect(3, 2, function(){cast(rebelEffectImage.effects[1],FlxGlitchEffect).active = false;}), new FlxGlitchEffect(2, 2, 0.1)];
 		cast(prezEffectImage.effects[1],FlxGlitchEffect).active = false;
-		prezEffectImage.setPosition(580,10);
+		prezEffectImage.setPosition(580,10-yOffset);
 		add(prezEffectImage);
 
 		//struggle and engry bars
-		statusBar = new FlxBar(70,30,FlxBarFillDirection.RIGHT_TO_LEFT,500,20,this,"popularity",0,1000);
+		statusBar = new FlxBar(70 ,30-yOffset,FlxBarFillDirection.RIGHT_TO_LEFT,500,20,this,"popularity",0,1000);
 		statusBar.maxPercent = 10000;
 		statusBar.createFilledBar(0xFFFF0000,0xFF00FF00,true,0xFF000000);
 		add(statusBar);
 
-		rebelAngryBar = new FlxBar(10,60,FlxBarFillDirection.LEFT_TO_RIGHT,50,8,this,"prezAngerLvl",0,100);
+		rebelAngryBar = new FlxBar(10 ,60-yOffset,FlxBarFillDirection.LEFT_TO_RIGHT,50,8,this,"prezAngerLvl",0,100);
 		rebelAngryBar.createFilledBar(0x88FF0000,0xFFFF0000,true,0xFF000000);
 		add(rebelAngryBar);
 
-		prezAngryBar = new FlxBar(570,60,FlxBarFillDirection.LEFT_TO_RIGHT,50,8,this,"rebelAngerLvl",0,100);
+		prezAngryBar = new FlxBar(570 ,60-yOffset,FlxBarFillDirection.LEFT_TO_RIGHT,50,8,this,"rebelAngerLvl",0,100,true);
+		prezAngryBar.createFilledBar(0xff005100, 0xff00F400, true, 0xFF000000);
 		add(prezAngryBar);
 
 		add(new FlxText(0,0,FlxG.width,"Revelution Bar").setFormat(null,16,0xFFFF0000,"center"));
@@ -139,13 +145,13 @@ class PlayState extends FlxState
 		tide += amount/100; 
 		tide = Math.max(.1,tide);
 		if(prezAngerLvl < 100)
-			prezAngerLvl -= amount*.2;
+			prezAngerLvl -= amount*.4;
 		if(rebelAngerLvl < 100)
-			rebelAngerLvl += amount*.2;
+			rebelAngerLvl += amount*.4;
 		var redComponent = Math.max(0,prezAngerLvl-50)/50;
 		var greenComponent = Math.max(0,50-prezAngerLvl)/50;
 
-		prezImage.color = 0xFFFFFFFF - Math.floor(redComponent*0x0000FFFF + greenComponent*0x00FF00FF);
+		prezImage.color = 0xFFFFFFFF - Math.floor(redComponent*0x0000FFFF);
 		trace(prezAngerLvl,redComponent,greenComponent);
 		if(amount > 0)
 		{
@@ -185,8 +191,15 @@ class PlayState extends FlxState
 			prezAngerLvl++;		
 		if(FlxG.keys.pressed.H)
 			prezAngerLvl--;		
-		
-		popularity -= (tide/25);
+		if(chooser.canSelect)
+		{
+			popularity -= (tide/25);
+			statusBar.alpha = 1;
+		}
+		else
+		{
+			statusBar.alpha = .8;
+		}
 		if(popularity<0)
 		{
 			Reg.reason = "revolution";

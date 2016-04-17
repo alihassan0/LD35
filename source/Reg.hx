@@ -11,5 +11,10 @@ class Reg
 {
 	
 	public static var reason:String = "";
+
+	public static var oldColorWalls:Int = 0xFFac5100;
+	
+	public static var newColorWalls:Int = 0xFFac5100;
+
 	
 }

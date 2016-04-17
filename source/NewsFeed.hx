@@ -27,7 +27,7 @@ class NewsFeed extends FlxSprite{
 		var lineStyle = { color: 0xFF000000, thickness: 3.0 };
 		drawRoundRect(0, 0, this.width, this.height, 15, 15, 0xFF333333,lineStyle);
 		
-		//FlxG.state.add(this);
+		FlxG.state.add(this);
 
 		newsTextField = new FlxTypeText(x+10,y+30,Math.floor(this.width)-20,"news",12);
 		newsTextField.delay = 0.1;
