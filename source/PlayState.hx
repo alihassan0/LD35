@@ -31,7 +31,6 @@ class PlayState extends FlxState
 	public var rebelAngerLvl:Float = 50;
 	public var popularity:Float = 1000;
 
-	public var tv:TV;
 	public var recorder:Recorder;
 	public var chooser:Chooser;
 
@@ -40,7 +39,9 @@ class PlayState extends FlxState
 
 	private var random:FlxRandom;
 
-	private var tide:Float = 1;
+	public var noise:FlxSprite;
+
+	private var tide:Float = 3;
 	override public function create():Void
 	{
 		super.create();
@@ -48,26 +49,27 @@ class PlayState extends FlxState
 		random = new FlxRandom();
 		Sound.init();
 
+		new Noise(178,60);
+		new Noise(278,60);
+		new Noise(178,160);
+		new Noise(300,200);
 		//Background
 		var bg:FlxSprite = new FlxSprite(0,0,"assets/images/set.png");
 		bg.scale.set(2,2);
 		bg.updateHitbox();
 		add(bg);
 
-		var frame = new FlxSprite(460,65,"assets/images/frame.png");
+		var frame = new FlxSprite(450,65,"assets/images/frame.png");
 		frame.scale.set(.8,.8);
 		add(frame);
 
-		newsFeed = new NewsFeed(480,40);
+		newsFeed = new NewsFeed(178,70);
 		newsFeed.changeText("");
-
-		tv = new TV(90,160);
-		//add(tv);
 
 		//add(new Recorder(256,190));
 
 		//add top panel
-		add(new FlxSprite(0,0).makeGraphic(FlxG.width,70,0xFFCCCCCC));
+		//add(new FlxSprite(0,0).makeGraphic(FlxG.width,70,0xFFCCCCCC));
 		
 		rebelImage = new FlxSprite(20,10,"assets/images/rebel.png");
 		rebelEffectImage = new FlxEffectSprite(rebelImage);
@@ -87,6 +89,7 @@ class PlayState extends FlxState
 
 		//struggle and engry bars
 		statusBar = new FlxBar(70,30,FlxBarFillDirection.RIGHT_TO_LEFT,500,20,this,"popularity",0,1000);
+		statusBar.maxPercent = 10000;
 		statusBar.createFilledBar(0xFFFF0000,0xFF00FF00,true,0xFF000000);
 		add(statusBar);
 
@@ -146,9 +149,9 @@ class PlayState extends FlxState
 		trace(prezAngerLvl,redComponent,greenComponent);
 		if(amount > 0)
 		{
-			cast(rebelEffectImage.effects[0],FlxShakeEffect).start();
-			cast(prezEffectImage.effects[1],FlxGlitchEffect).active = true;
 			
+			cast(prezEffectImage.effects[0],FlxShakeEffect).start();
+			cast(rebelEffectImage.effects[1],FlxGlitchEffect).active = true;
 			Sound.play("cheer");
 			
 			if(rebelAngerLvl > 90)
@@ -156,19 +159,18 @@ class PlayState extends FlxState
 				cast(rebelEffectImage.effects[0],FlxShakeEffect).reset(3,0);
 
 			}
-
+			add(new FloatingText(chooser.x,chooser.y,sAmount.charAt(0)+Math.abs(amount),0xFF00FF00));
 		}
 		else
 		{
 			Sound.play("anger");
 
-			cast(prezEffectImage.effects[0],FlxShakeEffect).start();
-			cast(rebelEffectImage.effects[1],FlxGlitchEffect).active = true;
-
+			cast(rebelEffectImage.effects[0],FlxShakeEffect).start();
+			cast(prezEffectImage.effects[1],FlxGlitchEffect).active = true;
+			add(new FloatingText(chooser.x,chooser.y,sAmount.charAt(0)+Math.abs(amount),0xFFFF0000));
 		}
 
 		FlxG.camera.shake(.01,Math.abs(amount)/400);
-		add(new FloatingText(chooser.x,chooser.y,sAmount.charAt(0)+Math.abs(amount),0xFFFF0000));
 	}
 	override public function update(elapsed:Float):Void
 	{
