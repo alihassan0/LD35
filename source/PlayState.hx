@@ -109,7 +109,7 @@ class PlayState extends FlxState
 		add(prezAngryBar);
 
 		add(new FlxText(0,0,FlxG.width,"Revolution Bar").setFormat(null,16,0xFFFF0000,"center"));
-		add(tideTxt = new FlxText(rebelImage.x+40,rebelImage.y,100,"X"+tide).setFormat(null,8,0xFFFF0000));
+		add(tideTxt = new FlxText(rebelImage.x+40,rebelImage.y,100,"X "+tide).setFormat(null,8,0xFFFF0000));
 
 		FlxG.watch.addMouse();
 		FlxG.watch.add(this,"popularity");
@@ -196,7 +196,7 @@ class PlayState extends FlxState
 		if(chooser.canSelect)
 		{
 			popularity -= (tide/20);
-			tideTxt.text = "X "+tide;
+			tideTxt.text = "X "+Math.fround(tide*100)/100;
 			statusBar.alpha = 1;
 		}
 		else

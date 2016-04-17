@@ -38,44 +38,44 @@ class Data {
 		{text:"This is a proof of the mutual trust between the government and the people.",reaction:"+8"},
 		{text:"This is the result of them shutting up all opposing opinions. How could a healthy regime be that one sided.",reaction:"-5"}]
 		},
-		{"choices":[{text:"After spending billions in this project. It barely even covered its costs.",reaction:"+5"},
-		{text:"We have to wait 10 more years. Big projects like this needs years and years to make profit.",reaction:"+5"},
-		{text:"Dozens of experts said that this projects is not worth it. It was all just for show. ",reaction:"+5"},
-		{text:"Those who say that the project was a failure are the failures. They are all just jealous and envious of its success.",reaction:"+5"}]
+		{"choices":[{text:"After spending billions in this X project. It barely even covered its costs.",reaction:"+5"},
+		{text:"We have to wait 10 more years. Big projects like this needs years and years to make profit.",reaction:"+3"},
+		{text:"Dozens of experts said that this projects is not worth it. It was all just for show. ",reaction:"-6"},
+		{text:"Those who say that the project was a failure are the failures. They are all just jealous and envious of its success.",reaction:"+9"}]
 		},
-		{"choices":[{"text":"#20% of the people are illiterate. Due to bad educational facilities. ",reaction:"+5"},
-		{"text":"#Those illiterates are what’s keeping this regime in place. That’s why he is not doing anything about it.",reaction:"+5"},
-		{"text":"#The Government already started to fix this. Literacy will disappear in no less than 50 years .. hopefully ",reaction:"+5"},
-		{"text":"#These statistics are wrong .. they exaggerate just to make the government look bad.",reaction:"+5"}]
+		{"choices":[{"text":"20% of the population are illiterate. Due to bad educational facilities. ",reaction:"+5"},
+		{"text":"Those illiterates are what’s keeping this regime in place. That’s why he is not doing anything about it.",reaction:"-4"},
+		{"text":"The Government already started to fix this. Literacy will disappear in no less than 50 years .. hopefully ",reaction:"+3"},
+		{"text":"These statistics are wrong .. they exaggerate just to make the government look bad.",reaction:"+8"}]
 		},
-		{"choices":[{"text":"#In the last statistics we got the first place in number of hepatitis C.",reaction:"+5"},
-		{"text":"#At Least we are got the first place. ",reaction:"+5"},
-		{"text":"#It’s not the government’s fault. It’s all because people never wash their hands.",reaction:"+5"},
-		{"text":"#If only our government would put tenth of the military cost in health care. Maybe then we wouldn’t have that problem",reaction:"+5"}]
+		{"choices":[{"text":"In the latest statistics we got the first place in number of hepatitis C.",reaction:"+5"},
+		{"text":"At Least we are got the first place. ",reaction:"+3"},
+		{"text":"It’s not the government’s fault. It’s all because people never wash their hands.",reaction:"+5"},
+		{"text":"If only our government would put tenth of the military cost in health care. Maybe then we wouldn’t have that problem",reaction:"-8"}]
 		},
-		{"choices":[{"text":"#Statistics show that there are over 10k political prisoners.",reaction:"+5"},
-		{"text":"#No one should be in prison because of their political views. We are not living in the dark ages anymore",reaction:"+5"},
-		{"text":"#They are in the hands of their judge. We respect our justice system.",reaction:"+5"},
-		{"text":"#And the credits for that goes to our leader . Thanks a lot for getting rid of those scumbags ",reaction:"+5"}]
+		{"choices":[{"text":"Statistics show that there are over 10k political prisoners.",reaction:"+5"},
+		{"text":"No one should be in prison because of their political views. We are not living in the dark ages anymore",reaction:"-9"},
+		{"text":"They are in the hands of their judge. We respect our justice system.",reaction:"+3"},
+		{"text":"And the credits for that goes to our leader . Thanks a lot for getting rid of those scumbags ",reaction:"+10"}]
 		},
-		{"choices":[{"text":"#The Human rights watch condemned the current civil rights in our country and demand improvements",reaction:"+5"},
-		{"text":"#They should mind their own business. Our people couldn’t be happier.",reaction:"+5"},
-		{"text":"#Even those who are observing from a distance can smell the rotten smell of this regime.",reaction:"+5"},
-		{"text":"#They are taking money from opposing parties to say such nonsense. ",reaction:"+5"}]
+		{"choices":[{"text":"The Human rights watch condemned the current civil rights in our country and demand improvements",reaction:"+5"},
+		{"text":"They should mind their own business. Our people couldn’t be happier.",reaction:"+6"},
+		{"text":"Even those who are observing from a distance can smell the rotten smell of this regime.",reaction:"-4"},
+		{"text":"They are taking money from opposing parties to say such nonsense. ",reaction:"+6"}]
 		},
-		{"choices":[{"text":"#The country economy is suffering and the inflation rate has never been higher.",reaction:"+5"},
-		{"text":"#We should open the door for donations from neighboring countries. It’s their duty to help us when we are in need.",reaction:"+5"},
-		{"text":"#An egg-plant would have run this country better than this fool of a president. ",reaction:"+5"},
-		{"text":"#It’s all the faults of those lazy workers. people need to work more",reaction:"+5"}]
+		{"choices":[{"text":"The country economy is suffering and the inflation rates has never been higher.",reaction:"+5"},
+		{"text":"We should open the door for donations from neighboring countries. It’s their duty to help us when we are in need.",reaction:"+9"},
+		{"text":"An egg-plant would have run this country better than this fool of a president. ",reaction:"-8"},
+		{"text":"It’s all the faults of those lazy workers. people need to work more",reaction:"+4"}]
 		},
-		{"choices":[{"text":"#30% increase in all judges and police officer salaries for the third time this year.",reaction:"+5"},
-		{"text":"#They work hard .. They deserve such a raise.",reaction:"+5"},
-		{"text":"#They think by doing that they are buying protection. But how long could their money last ??!",reaction:"+5"},
-		{"text":"#Stop interfering in everyone’s business. ",reaction:"+5"}]
+		{"choices":[{"text":"30% increase in all judges and police officer salaries for the third time this year.",reaction:"+5"},
+		{"text":"They work hard .. They deserve such a raise.",reaction:"+3"},
+		{"text":"They think by doing that they are buying protection. But for how long could they afford it ??!",reaction:"-5"},
+		{"text":"Stop interfering in everyone’s business. ",reaction:"+8"}]
 		},
-		{"choices":[{"text":"#Death sentence to over 500 persons for the crime of murdering one police officer.",reaction:"+5"},
-		{"text":"#Finally . this should be a good lesson for all those who think they can break the law.",reaction:"+5"},
-		{"text":"#How on earth can 500 persons kill one person. Do they think we are stupid.",reaction:"+5"},
-		{"text":"#No comments on Court orders",reaction:"+5"}]}
+		{"choices":[{"text":"Death sentence to over 500 persons for the crime of murdering one police officer.",reaction:"+5"},
+		{"text":"Finally. this should be a good lesson for all those who think they can break the law.",reaction:"+11"},
+		{"text":"How on earth can 500 persons kill one person. Do they think we are stupid.",reaction:"-7"},
+		{"text":"No comments on Court orders",reaction:"+3"}]}
 		];
 }
