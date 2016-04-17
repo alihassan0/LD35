@@ -16,12 +16,19 @@ import flixel.math.FlxRandom;
 class PlayState extends FlxState
 {
 	public var newsFeed:NewsFeed;
+
 	public var statusBar:FlxBar;
+	public var prezAngryBar:FlxBar;
+	public var rebelAngryBar:FlxBar;
+
+	public var prezAngerLvl:Float = 50;
+	public var rebelAngerLvl:Float = 50;
+	public var popularity:Float = 1000;
+
 	public var tv:TV;
 	public var recorder:Recorder;
 	public var chooser:Chooser;
 
-	public var popularity:Float = 1000;
 
 	public var currentEvent:Int=0;
 
@@ -45,10 +52,6 @@ class PlayState extends FlxState
 		frame.scale.set(.8,.8);
 		add(frame);
 
-
-		
-
-
 		newsFeed = new NewsFeed(480,40);
 		newsFeed.changeText("hello my name is ali .. and welcome to my new game");
 
@@ -56,20 +59,33 @@ class PlayState extends FlxState
 		//add(tv);
 
 		//add(new Recorder(256,190));
-		
-		add(new FlxSprite(0,0).makeGraphic(FlxG.width,50,0xFFCCCCCC));
-		
-		var prez:FlxSprite = new FlxSprite(20,10,"assets/images/mobarak.png");
-		add(prez);
 
-		var rebel:FlxSprite = new FlxSprite(600,10,"assets/images/rebel.png");
+		//add top panel
+		add(new FlxSprite(0,0).makeGraphic(FlxG.width,70,0xFFCCCCCC));
+		
+		var rebel:FlxSprite = new FlxSprite(20,10,"assets/images/rebel.png");
+		rebel.scale.set(.8,.8);
 		add(rebel);
 
-		//struggle bar
-		statusBar = new FlxBar(70,10,FlxBarFillDirection.LEFT_TO_RIGHT,500,20,this,"popularity",0,1000);
+		var prez:FlxSprite = new FlxSprite(580	,10,"assets/images/mobarak.png");
+		add(prez);
+
+		//struggle and engry bars
+		statusBar = new FlxBar(70,30,FlxBarFillDirection.RIGHT_TO_LEFT,500,20,this,"popularity",0,1000);
 		statusBar.createFilledBar(0xFFFF0000,0xFF00FF00,true,0xFF000000);
 		add(statusBar);
-		
+
+		rebelAngryBar = new FlxBar(10,60,FlxBarFillDirection.LEFT_TO_RIGHT,50,8,this,"prezAngerLvl",0,100);
+		rebelAngryBar.createFilledBar(0xFFFF0000,0xFF00FF00,true,0xFF000000);
+		add(rebelAngryBar);
+
+		prezAngryBar = new FlxBar(570,60,FlxBarFillDirection.LEFT_TO_RIGHT,50,8,this,"rebelAngerLvl",0,100);
+		prezAngryBar.createFilledBar(0xFFFF0000,0xFF00FF00,true,0xFF000000);
+		add(prezAngryBar);
+
+		add(new FlxText(0,0,FlxG.width,"Revelution Bar").setFormat(null,16,0xFFFF0000,"center"));
+
+
 		FlxG.watch.addMouse();
 
 		chooser = new Chooser(0,300);
@@ -97,10 +113,12 @@ class PlayState extends FlxState
 	}
 	public function react(amount:Int):Void
 	{
-		popularity += amount*5;
+		popularity += amount*10;
 		popularity = Math.min(1000,popularity);
 		tide += amount/5; 
 		tide = Math.max(.1,tide);
+		prezAngerLvl -= amount;
+		rebelAngerLvl += amount;
 	}
 	override public function update(elapsed:Float):Void
 	{
